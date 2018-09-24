@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rigid2d;
 
+    [Header("Movement")]
+    [SerializeField]
+    [Range (1f, 10f)]
     private float walkSpeed = 5f;
-    private Vector2 moveVelocity;
     private float moveInputHorizontal;
     private float moveInputVertical;
 
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move() {
         Vector2 moveInput = new Vector2(moveInputHorizontal, moveInputVertical);
-        moveVelocity = moveInput.normalized * walkSpeed;
+        Vector2 moveVelocity = moveInput.normalized * walkSpeed;
 
         rigid2d.MovePosition(rigid2d.position + moveVelocity * Time.fixedDeltaTime);
     }
