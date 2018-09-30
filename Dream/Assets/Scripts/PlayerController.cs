@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // PlayerController Components
     private Rigidbody2D rigid2d;
+    private Animator animator;
 
     // Movement
     private int direction = 270;
@@ -25,10 +27,7 @@ public class PlayerController : MonoBehaviour
     [Range(0, 2f)]
     private float dashStartDelay = 1f;
     private float dashStartTimer = 0;
-
-    // Animation
-    private Animator animator;
-
+        
     void Start () {
         rigid2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -83,10 +82,10 @@ public class PlayerController : MonoBehaviour
 
     private void Move() {
         if (moveInputHorizontal != 0 || moveInputVertical != 0) {
-            animator.SetBool("Running", true);
+            animator.SetBool("isRunning", true);
         }
         else {
-            animator.SetBool("Running", false);
+            animator.SetBool("isRunning", false);
         }
 
         Vector2 moveInput = new Vector2(moveInputHorizontal, moveInputVertical);
