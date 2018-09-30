@@ -44,8 +44,18 @@ public class PlayerController : MonoBehaviour
         moveInputHorizontal = Input.GetAxis("Horizontal");
         moveInputVertical = Input.GetAxis("Vertical");
         dashInput = Input.GetButton("Dash");
+
+        // Disable directional movement while dashing
+        if (dashInput == true) {
+            moveInputHorizontal = 0;
+            moveInputVertical = 0;
+        }
     }
 
+    /* DebugOutput
+     * 
+     * Prints debug information on screen.
+     */
     void DebugOutput() {
         GUI.Label(new Rect(50, 10, 300, 20), "Movement direction: " + direction);
         GUI.Label(new Rect(50, 25, 300, 20), "Movement horizontal: " + moveInputHorizontal);
@@ -54,10 +64,18 @@ public class PlayerController : MonoBehaviour
         GUI.Label(new Rect(50, 85, 300, 20), "Dash start timer: " + dashStartTimer);
     }
 
+    /* OnGui
+     * 
+     * Displays the GUI
+     */
     void OnGUI() {
         DebugOutput();
     }
 
+    /* Direction
+     * 
+     *  Sets current direction the player is facing
+     */
     private void Direction()
     {
         // Player facing down
@@ -80,6 +98,10 @@ public class PlayerController : MonoBehaviour
         animator.SetInteger("Direction", direction);
     }
 
+    /* Move
+     * 
+     * Player directional movement.
+     */
     private void Move() {
         if (moveInputHorizontal != 0 || moveInputVertical != 0) {
             animator.SetBool("isRunning", true);
@@ -94,20 +116,31 @@ public class PlayerController : MonoBehaviour
         rigid2d.MovePosition(rigid2d.position + moveVelocity * Time.fixedDeltaTime);
     }
 
+    /* Dash
+     * 
+     * Player starts to dash if the dash button is held down longer than the time
+     * specified in dashStartDelay.
+     * 
+     * Player stops dashing when the dash button is no longer held down. 
+     */  
     private void Dash() {
         if (dashInput == true) {
 
             if (dashStartTimer >= dashStartDelay) {
 
+                // Player facing down
                 if (direction == 270) {
                     moveVelocity = Vector2.down * dashSpeed;
                 }
+                // Player facing up
                 else if (direction == 90) {
                     moveVelocity = Vector2.up * dashSpeed;
                 }
+                // Player facing left
                 else if (direction == 0) {
                     moveVelocity = Vector2.left * dashSpeed;
                 }
+                // Player facing right
                 else if (direction == 180) {
                     moveVelocity = Vector2.right * dashSpeed;
                 }
