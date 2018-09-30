@@ -7,30 +7,31 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigid2d;
 
     // Movement
-    [Header("Movement")]
     private int direction = 270;
     private float moveInputHorizontal = 0;
     private float moveInputVertical = 0;
     private Vector2 moveVelocity;
-
+    [Header("Movement")]
     [SerializeField]
     [Range(1f, 10f)]
     private float walkSpeed = 5f;
 
     // Dash
     private bool dashInput = false;
-
     [SerializeField]
     [Range(1f, 10f)]
     private float dashSpeed = 10f;
-
     [SerializeField]
-    [Range(.1f, 2f)]
+    [Range(0, 2f)]
     private float dashStartDelay = 1f;
     private float dashStartTimer = 0;
 
+    // Animation
+    private Animator animator;
+
     void Start () {
         rigid2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void FixedUpdate() {
@@ -43,7 +44,6 @@ public class PlayerController : MonoBehaviour
 
         moveInputHorizontal = Input.GetAxis("Horizontal");
         moveInputVertical = Input.GetAxis("Vertical");
-
         dashInput = Input.GetButton("Dash");
     }
 
@@ -51,8 +51,8 @@ public class PlayerController : MonoBehaviour
         GUI.Label(new Rect(50, 10, 300, 20), "Movement direction: " + direction);
         GUI.Label(new Rect(50, 25, 300, 20), "Movement horizontal: " + moveInputHorizontal);
         GUI.Label(new Rect(50, 40, 300, 20), "Movement vertical: " + moveInputVertical);
-        GUI.Label(new Rect(50, 55, 300, 20), "Dash: " + dashInput);
-        GUI.Label(new Rect(50, 70, 300, 20), "Dash start timer: " + dashStartTimer);
+        GUI.Label(new Rect(50, 70, 300, 20), "Dash: " + dashInput);
+        GUI.Label(new Rect(50, 85, 300, 20), "Dash start timer: " + dashStartTimer);
     }
 
     void OnGUI() {
@@ -77,9 +77,18 @@ public class PlayerController : MonoBehaviour
         else if (moveInputHorizontal > 0) {
             direction = 180;
         }
+
+        animator.SetInteger("Direction", direction);
     }
 
     private void Move() {
+        if (moveInputHorizontal != 0 || moveInputVertical != 0) {
+            animator.SetBool("Running", true);
+        }
+        else {
+            animator.SetBool("Running", false);
+        }
+
         Vector2 moveInput = new Vector2(moveInputHorizontal, moveInputVertical);
         moveVelocity = moveInput.normalized * walkSpeed;
 
