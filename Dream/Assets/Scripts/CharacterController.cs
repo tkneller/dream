@@ -21,19 +21,19 @@ public class CharacterController : MonoBehaviour {
      *  Sets current direction the character is facing
      */
     private void SetDirection(float moveInputHorizontal, float moveInputVertical) {
-        // Player facing down
+        // Character facing down
         if (moveInputVertical < 0) {
             direction = 270;
         }
-        // Player facing up
+        // Character facing up
         else if (moveInputVertical > 0) {
             direction = 90;
         }
-        // Player facing left
+        // Character facing left
         else if (moveInputHorizontal < 0) {
             direction = 0;
         }
-        // Player facing right
+        // Character facing right
         else if (moveInputHorizontal > 0) {
             direction = 180;
         }
