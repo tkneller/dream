@@ -10,7 +10,7 @@ public class CharacterController : MonoBehaviour {
     private Vector2 moveInput;
     private Vector2 moveVelocity;
 
-    private float dashStartTimer = 0;
+    private float runStartTimer = 0;
 
     void Start() {
         rigid2d = GetComponent<Rigidbody2D>();
@@ -65,45 +65,45 @@ public class CharacterController : MonoBehaviour {
         return true;
     }
 
-    /* Dash
+    /* Run
      * 
-     * Character starts to dash if the dash button is held down longer than the time
-     * specified in dashStartDelay.
+     * Character starts to run if the run button is held down longer than the time
+     * specified in runStartDelay.
      * 
-     * Character stops dashing when the dash button is no longer held down. 
+     * Character stops running when the run button is no longer held down. 
      */
-    public bool Dash(bool dashInput, float dashStartDelay, float dashSpeed) {
+    public bool Run(bool dashInput, float runStartDelay, float runSpeed) {
         if (dashInput == true) {
 
-            if (dashStartTimer >= dashStartDelay) {
+            if (runStartTimer >= runStartDelay) {
 
                 // Player facing down
                 if (direction == 270) {
-                    moveVelocity = Vector2.down * dashSpeed;
+                    moveVelocity = Vector2.down * runSpeed;
                 }
                 // Player facing up
                 else if (direction == 90) {
-                    moveVelocity = Vector2.up * dashSpeed;
+                    moveVelocity = Vector2.up * runSpeed;
                 }
                 // Player facing left
                 else if (direction == 0) {
-                    moveVelocity = Vector2.left * dashSpeed;
+                    moveVelocity = Vector2.left * runSpeed;
                 }
                 // Player facing right
                 else if (direction == 180) {
-                    moveVelocity = Vector2.right * dashSpeed;
+                    moveVelocity = Vector2.right * runSpeed;
                 }
 
                 rigid2d.MovePosition(rigid2d.position + moveVelocity * Time.fixedDeltaTime);
             }
             else {
-                dashStartTimer += Time.fixedDeltaTime;
+                runStartTimer += Time.fixedDeltaTime;
             }
 
             return true;
         }
 
-        dashStartTimer = 0;
+        runStartTimer = 0;
         return false;
     }
 }
