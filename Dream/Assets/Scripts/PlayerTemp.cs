@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
      * Displays the GUI
      */
     void OnGUI() {
-        DebugOutput();
+        // DebugOutput();
     }
 
     /* Animation
